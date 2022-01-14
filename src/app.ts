@@ -53,7 +53,9 @@ if(process.env.NODE_ENV === 'test'){
 else{
   connectDB()
 }
-
+app.get('/', (req:any,res:any)=>{
+  res.send({data:'api working'})
+})
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/balance', authenticationUser, balanceRouter)
 app.use('/api/v1/transactions', authenticationUser, indexRouter);
