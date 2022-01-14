@@ -8,7 +8,7 @@
     "compile": "yarn tsc",
     "compile:watch": "yarn tsc -w",
     "clean" : "rm -rf dist && mkdir dist",
-    "heroku-postbuild" : "yarn clean && yarn build"
+    "heroku-postbuild" : "yarn clean && yarn compile"
   },
   "dependencies": {
     "@types/mongoose": "^5.11.97",
