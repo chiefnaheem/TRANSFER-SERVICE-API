@@ -71,4 +71,4 @@ I implemented the following:
 - I documented my API with postman
 
 ## Hosting
-- I host the application on Heroku
+- I host the application on Heroku.
