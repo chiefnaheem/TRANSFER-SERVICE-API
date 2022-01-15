@@ -5,7 +5,7 @@ import balanceController from '../controller/balanceController'
 const { getBalanceForParticularAccNumber, getBalanceForUser, getAllAccountsAndBalance} = balanceController
 
 router.route('/:pageno').get(getAllAccountsAndBalance)
-router.route('/:accountNumber').get(getBalanceForParticularAccNumber)
+router.route('/acc/:accountNumber').get(getBalanceForParticularAccNumber)
 router.route('/user/:userId').get(getBalanceForUser)
 
 export default router;

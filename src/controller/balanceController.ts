@@ -35,7 +35,7 @@ const getBalanceForUser = async (req: Request, res: Response, next: NextFunction
     if(!userBalance) return res.status(400).send({status: 'failed', message: 'Invalid user ID. Enter a correct ID'})
     console.log(userBalance)
     // const filteredResult =  _.pick(userBalance, ['userId', 'accountNumber', 'balance', '_id'])
-    // res.status(200).json({ status: 'success', type:'particular user', resb:req.params.userId  })
+    // res.status(200).json({ status: 'success', type:'particular user', res:req.params.userId  })
     res.send(userBalance)
    } catch (err) {
     return res.status(500).json(err)

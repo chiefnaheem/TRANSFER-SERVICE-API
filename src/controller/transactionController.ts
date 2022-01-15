@@ -32,10 +32,10 @@ const makeTransferToAnotherAccount = async (req: Request, res: Response, next: N
 }
 const getAllTransactionOfAUser = async (req: Request, res: Response, next: NextFunction) => {
    try {
-    const userAccount = await Balance.findOne({ accountNumber: req.params.accountNumber })
-    if (!userAccount) return res.status(400).send({ status: 'failed', message: 'Invalid Account Number. Enter a correct one' })
-    const filteredResult = _.pick(userAccount, ['userId', 'accountNumber', 'balance'])
-    res.status(200).json({ status: 'success', data: filteredResult })
+    const userAccount = await Transactions.find({ accountNumber: req.params.accountNumber })
+    if (!userAccount) return res.status(400).send({ status: 'failed', message: 'Wrong entry!' })
+    // const filteredResult = _.pick(userAccount, ['userId', 'accountNumber', 'balance'])
+    res.status(200).json({ status: 'success', userAccount })
      res.status(200).json(userAccount)
    } catch (err) {
      return res.status(500).json(err)
@@ -45,7 +45,7 @@ const getAllTransactionOfAUser = async (req: Request, res: Response, next: NextF
 const getAllCreditTransactionOfAUser = async (req: Request, res: Response, next: NextFunction) =>{
     try {
       let userTransact = await Transactions.find({ receiverAccount: req.params.accountNumber }).select('senderAccount amount')
-      if (userTransact.length === 0) return res.status(400).send({ status: 'failed', message: 'Invalid Account Number. Enter a correct one'})
+      if (userTransact.length === 0) return res.status(200).send({ status: 'success', message: 'You have no credit transaction yet!'})
       res.status(200).json({ status: 'success', credit: userTransact })
       res.status(200).json(Transactions)
     } catch (err) {
@@ -56,7 +56,7 @@ const getAllDebitTransactionOfAUser = async (req: Request, res: Response, next: 
     try {
       let userTransact = await Transactions.find({senderAccount: req.params.accountNumber}).select('receiverAccount amount')
       console.log(userTransact)
-      if (userTransact.length === 0) return res.status(400).send({status: 'failed', message: 'Invalid Account Number. Enter a correct one'})
+      if (userTransact.length === 0) return res.status(200).send({status: 'success', message: 'You have no debit transaction yet!'})
       res.status(200).json({ status: 'success', debit: userTransact })
     } catch (err) {
       return res.status(500).json(err)

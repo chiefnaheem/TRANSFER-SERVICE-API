@@ -22,97 +22,98 @@ let loginData = {
   password: "123456",
 }
 
+const transactionData = {
+  reference : "1234567890",
+  senderAccount : "1234567890",
+  receiverAccount: "8867156033",
+  amount : 500,
+  transferDescription: "My transfer"
+}
+
 describe("POST/register",()=>{
     it("return status code 201", async()=>{
         const res = await supertest(app)
         .post("/api/v1/auth/register")
         .send(registerData)
         accountNumber = res.body.accountDetails.accountNumber
-        console.log(accountNumber)
         expect(res.statusCode).toEqual(201)
     })
 
-    test("login", async () => {
+    it("login", async () => {
       const response = await supertest(app)
         .post("/api/v1/auth/login")
         .send(loginData);
+
+
       token = response.body.accessToken;
-    
+
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
       // expect(response.body.message).toBe("You are logged in");
   });
 
 
-    test("All accounts and balances", async () => {
+    it("All accounts and balances", async () => {
+
       const response = await supertest(app)
       .get("/api/v1/balance/1")
-      .set("token", `Bearer ${token}`);
-      console.log(token,'first');
+      .set("Authorization", `Bearer ${token}`);
+
+      // console.log(response);
+
       expect(response.statusCode).toBe(200);
+  });
+
+  it("Get Balance for an account", async () => {
+    const response = await supertest(app)
+      .get("/api/v1/balance/:accountNumber")
+      .set("Authorization", `Bearer ${token}`);
+    expect(response.status).toBe(200);
+  });
+
+  it("Get Balance for a User", async () => {
+    const response = await supertest(app)
+      .get("/api/v1/balance/user/:userId")
+      .set("Authorization", `Bearer ${token}`);
+    expect(response.status).toBe(200);
+  });
+
+
+  it("makes transfer", async () => {
+    const response = await supertest(app)
+      .post("/api/v1/transactions")
+      .set("Authorization", `Bearer ${token}`)
+      .send(transactionData);
+      console.log(response.body)
+    expect(response.status).toBe(200);
+    // expect(response.body.success).toBe(true);
+
   });
 
 })
 
-describe("balances", () => {
-  console.log(token,'referrer');
-
-  // test("Get Balance for an account", async () => {
-  //   const response = await supertest(app)
-  //     .get("/api/v1/balance/:accountNumber")
-  //     .set("token", `Bearer ${token}`);
-  //   expect(response.status).toBe(200);
-  // });
-
-  // test("Get Balance for a User", async () => {
-  //     const response = await supertest(app)
-  //       .get("/api/v1/balance/user/:userId")
-  //       .set("token", `Bearer ${token}`);
-  //     expect(response.status).toBe(200);
-  // });
-
-  
-});
 
 // describe("transactions", () => {
-//   const transactionData = {
-//       reference : "1234567890",
-//       senderAccount : "1234567890",
-//       receiverAccount: "8867156033",
-//       amount : 500,
-//       transferDescription: "My transfer"
-//   }
-//   test("make transfer", async () => {
-//     const response = await supertest(app)
-//       .post("/api/v1/transactions")
-//       .set("token", `Bearer ${token}`)
-//       .send(transactionData);
-//       console.log(response.body)
-//       let id:string = response.body.transactionDetails._id;
-//       console.log(id)
-//     expect(response.status).toBe(200);
-//     expect(response.body.success).toBe(true);
-//     expect(response.body.message).toBe("A recipe has been created");
 
-//   });
-//   test("Get All Transactions for a User", async () => {
+  
+//   it("Get All Transactions for a User", async () => {
 //     const response = await supertest(app)
 //       .get("/api/v1/transactions/:accountNumber")
-//       .set("token", `Bearer ${token}`);
+//       .set("Authorization", `Bearer ${token}`);
 //     expect(response.status).toBe(200);
 //   });
 
-//   test("Get All Debit Transactions for a User", async () => {
+//   it("Get All Debit Transactions for a User", async () => {
 //     const response = await supertest(app)
 //       .get("/api/v1/transactions/debit/:accountNumber")
-//       .set("token", `Bearer ${token}`);
+//       .set("Authorization", `Bearer ${token}`);
 //     expect(response.status).toBe(200);
 //   });
 
-//   test("Get All Credit Transactions for a User", async () => {
+//   it("Get All Credit Transactions for a User", async () => {
 //     const response = await supertest(app)
 //       .get("/api/v1/transactions/credit/:accountNumber")
-//       .set("token", `Bearer ${token}`);
+//       .set("Authorization", `Bearer ${token}`);
 //     expect(response.status).toBe(200);
 //   });
 

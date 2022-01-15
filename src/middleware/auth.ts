@@ -4,6 +4,7 @@ import express, {Request, Response, NextFunction} from 'express'
 import User from '../model/userModel'
 const authenticationMiddleware = async (req:any, res:Response, next:NextFunction) => {
     const authHeader:any = req.headers.authorization;
+
     if(!authHeader || !authHeader.startsWith('Bearer')) {
         // throw new UnauthenticatedError ('No token provided') 
         res.json('Not Authorized')
