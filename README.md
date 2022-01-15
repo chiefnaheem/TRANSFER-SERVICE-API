@@ -69,6 +69,7 @@ I implemented the following:
 
 ## Documentation
 - I documented my API with postman
+- Link : https://documenter.getpostman.com/view/18352675/UVXjKwDy
 
 ## Hosting
 - I host the application on Heroku.
